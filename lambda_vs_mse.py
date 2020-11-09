@@ -6,18 +6,12 @@ from sklearn.metrics import mean_squared_error
 data = np.loadtxt( 'boston.csv', skiprows = 23, delimiter = ',' );
 y = data[ : , 13 ]
 X = data[ : , : 13 ]
-binWidth = 2
+binWidth = 46
 
 for j in range( X.shape[ 1 ] ):
     m = X[ : , j ].mean( )
     s = X[ : , j ].std( )
     X[ : , j ] = (X[ : , j ] - m ) / s
-
-model = lm.Lasso( alpha = 0.023 )
-model.fit( X , y )
-print( model.intercept_ )
-print( model.coef_ )
-exit()
 
 def region( k ):
     begin = binWidth * k
@@ -37,7 +31,7 @@ def XSplit( begin, end ):
     return np.concatenate( ( b, e ) ), m
 
 alphas = []
-for z in range( -4, -1, 1 ):
+for z in range( -4, 0, 1 ):
     l = np.arange( 10**z, 10**(z+1) + 10**(z-1), 10**(z-1) );
     alphas = np.concatenate( ( alphas, l ) )
 
