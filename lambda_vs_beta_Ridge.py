@@ -11,10 +11,18 @@ for j in range( X.shape[ 1 ] ):
     s = X[ : , j ].std( )
     X[ : , j ] = (X[ : , j ] - m ) / s
 
-alphas = np.arange( 0.0001, 10.0, 0.0001 )
+alpha_begin = 1.0e-4
+alpha_end   = 1.0e+9
+numDiv      = 1000
+ratio = np.power( alpha_end / alpha_begin, 1.0 / ( numDiv - 1 ) )
+alpha_current = alpha_begin
+alphas = [ alpha_begin ]
+for i in range( numDiv ):
+   alphas.append( alphas[ i ] * ratio ) 
+
 beta=[]
 for a in alphas:
-    model = lm.Lasso( alpha = a )
+    model = lm.Ridge( alpha = a )
     model.fit( X , y )
     beta.append( model.coef_ )
 
@@ -29,5 +37,7 @@ plt.xscale('log')
 for j in range( X.shape[1] ):
     l = '$\\beta_{' + str( j + 1 ) + '}$'
     ax.plot( alphas, [ b[ j ] for b in beta ], label = l )
-ax.legend()
-plt.show()
+ax.legend( loc = 'upper right' )
+plt.title("Ridge")
+plt.savefig( "lambda_vs_beta_Ridge.png", format = "png", dpi = 300 )
+
