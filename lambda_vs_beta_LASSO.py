@@ -12,7 +12,7 @@ for j in range( X.shape[ 1 ] ):
     X[ : , j ] = (X[ : , j ] - m ) / s
 
 alpha_begin = 1.0e-4
-alpha_end   = 1.0e+3
+alpha_end   = 1.0e+2
 numDiv      = 1000
 ratio = np.power( alpha_end / alpha_begin, 1.0 / ( numDiv - 1 ) )
 alpha_current = alpha_begin
@@ -37,7 +37,7 @@ plt.xscale('log')
 for j in range( X.shape[1] ):
     l = '$\\beta_{' + str( j + 1 ) + '}$'
     ax.plot( alphas, [ b[ j ] for b in beta ], label = l )
-ax.legend( loc = 'upper right' )
+#ax.legend( loc = 'upper right' )
 plt.title("LASSO")
 plt.savefig( "lambda_vs_beta_LASSO.png", format = "png", dpi = 300 )
 
